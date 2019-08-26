@@ -6,6 +6,7 @@ import {
 } from 'react-native';
 import TabbarHeader from './TabbarHeader';
 
+
 export default class CustomTabbar extends React.Component {
     render() {
         const { navigation } = this.props;
@@ -15,7 +16,7 @@ export default class CustomTabbar extends React.Component {
                 <View style={styles.container}>
                     {routes.map((route, index) => {
                         return (
-                            <View style={styles.tabBarItem}>
+                            <View style={styles.tabBarItem} key={index}>
                                 <TabbarHeader
                                     key={ route.key }
                                     routeName={ route.routeName }
@@ -45,4 +46,5 @@ const styles = StyleSheet.create({
     tabBarItem: {
         flex: 1,
     }
-})
+});
+

@@ -1,0 +1,5 @@
+export const DEPARTURE_DATE = "DEPARTURE_DATE";
+export const DEPARTURE_TIME = "DEPARTURE_TIME";
+
+export const RETURN_DATE = "RETURN_DATE";
+export const RETURN_TIME = "RETURN_TIME";

@@ -6,9 +6,35 @@ import {
     TouchableHighlight,
 } from 'react-native';
 import CalendarList from '../../components/Calendar/index';
+import TimePickerComponent from '../../components/TimePicker/index';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux'
+import * as actions from '../../actionCreators';
 
 
-export default class ReturnView extends React.Component{
+class ReturnView extends React.Component{
+    constructor(){
+        super();
+        this.state = {
+            isDatePressed : false,
+            dateSelected:null,
+        }
+    }
+
+    callTimePicker = ({ dateString }) => {
+        this.setState({
+            isDatePressed: !this.state.isDatePressed,
+            dateSelected: dateString,
+        });
+        this.props.action.storeReturnDate(dateString);
+    };
+
+    toggleTimePicker = () => {
+        this.setState({
+            isDatePressed: ! this.state.isDatePressed,
+        });
+    };
+
     render(){
         return(
             <View> 
@@ -21,12 +47,18 @@ export default class ReturnView extends React.Component{
                     <Text style={styles.dayTextStyle}>F</Text>
                     <Text style={styles.dayTextStyle}>S</Text>
                 </View>
-                <CalendarList/>
+                <CalendarList callTimePicker={(data) => this.callTimePicker(data)}/>
                 <TouchableHighlight style={styles.buttonStyle}>
                     <Text style={{color:'white'}}>Continue to Booking</Text>
                 </TouchableHighlight>
+                { this.state.isDatePressed && <TimePickerComponent getTimeRange={ value => this._getTimeRange( value )}/> }
             </View>
         );
+    }
+
+    _getTimeRange( time ) {
+        this.toggleTimePicker();
+        this.props.action.storeReturnTime( time );
     }
 };
 
@@ -53,3 +85,9 @@ const styles = StyleSheet.create({
         margin:10
     },  
 });
+
+const mapDispatchToProps = (dispatch) => ({
+    action : bindActionCreators(actions, dispatch),
+});
+
+export default connect(null, mapDispatchToProps)(ReturnView);

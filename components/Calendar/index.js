@@ -7,28 +7,30 @@ import { CalendarList } from 'react-native-calendars';
 const { height } = Dimensions.get('window');
 
 export default class CalendarComponent extends React.Component {
+    constructor(){
+        super();
+        this.state = {
+            markedDate : {}
+        }
+    }
     render() {
         return (
             <CalendarList
                 theme={{
                     'stylesheet.calendar.header':{
                         header: {
-                            flexDirection: 'row',
-                            justifyContent: 'flex-start',
                             paddingLeft: 10,
                             paddingRight: 10,
-                            marginTop: 6,
                             alignItems: 'flex-start',
                           },
                         monthText: {
                             color:'black',
                             fontWeight:'500',
-                            margin: 10
                           },
                     }
                 }}
                 hideDayNames={true}
-                
+                markedDates={{[this.state.markedDate]: {selected: true, selectedColor: 'orange'}}}
                 hideExtraDays={false}
                 style={{ width:'95%', height: height * 0.58 }}
                 // Callback which gets executed when visible months change in scroll view. Default = undefined
@@ -44,8 +46,10 @@ export default class CalendarComponent extends React.Component {
                 current={'2019-08-25'}
                 minDate={'2019-08-01'}
                 onDayPress={(day) => {
-                    console.log('selected day', day);
-                    this.props.callTimePicker();
+                    this.setState({
+                        markedDate : day.dateString,
+                    });
+                    this.props.callTimePicker(day);
                 }}
             />
         );

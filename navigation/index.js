@@ -19,4 +19,5 @@ const TopTabBarConfig = createMaterialTopTabNavigator({
     ),
 });
 
+
 export default createAppContainer( TopTabBarConfig );

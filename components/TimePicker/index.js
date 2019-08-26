@@ -3,22 +3,25 @@ import {
     Dimensions,
     Animated,
     StyleSheet,
-    ScrollView,
+    Platform,
     TouchableHighlight,
     Text,
     View,
 } from 'react-native';
 import DatePicker from 'react-native-date-picker';
+import { WheelPicker } from 'react-native-wheel-picker-android'
+import Picker from 'react-native-wheel-picker';
 
 const { height, width } = Dimensions.get('window');
-const arrayValue = ['01','02','03','04','05','06','07','08','09','10','11','12'];
+const arrayValue = ['0:00 AM', '1:00 AM', '2:00 AM', '3:00 AM', '4:00 AM', '5:00 AM', '6:00 AM', '7:00 AM', '8:00 AM', '9:00 AM', '10:00 AM', '11:00 AM', '12:00 PM', '1:00 PM', '2:00 PM', '3:00 PM', '4:00 PM', '5:00 PM', '6:00 PM', '7:00 PM', '8:00 PM', '9:00 PM', '10:00 PM'];
 
 export default class TimePicker extends React.Component {
     constructor() {
         super();
         this.state = {
-            bounceValue: new Animated.Value(270),
-            date: new Date(),
+            bounceValue: new Animated.Value(280),
+            index: 0,
+            toDuration: '',
         };
         this.isHidden = true;
     }
@@ -28,7 +31,7 @@ export default class TimePicker extends React.Component {
     }
 
     _toggleView() {
-        let toValue = 270;
+        let toValue = 280;
         if (this.isHidden) {
             toValue = 0;
         }
@@ -42,6 +45,7 @@ export default class TimePicker extends React.Component {
             }
         ).start();
         this.isHidden = !this.isHidden;
+
     }
 
     render() {
@@ -51,49 +55,57 @@ export default class TimePicker extends React.Component {
                 { transform: [{ translateY: this.state.bounceValue }] }]}
             >
                 <View style={styles.container}>
-                    <View style={{ alignSelf:'flex-start', paddingLeft:10}}>
+                    <View style={{ alignSelf: 'flex-start', paddingLeft: 10, marginTop:10 }}>
                         <Text> Select Time Slot</Text>
                     </View>
-                    {/* <DatePicker
-                        mode={'time'}
-                        date={this.state.date}
-                        onDateChange={date => this.setState({ date })}
-                    /> */}
                     <View style={styles.hourListStyle}>
-                        <View style={{flex:1}}>
-                        <ScrollView 
-                            contentContainerStyle={styles.hourList}
-                            showsVerticalScrollIndicator={false}  
-                            onScroll={this._handleScroll}
-                            onScrollAnimationEnd={this._getValue}
-                            >
-                            {arrayValue.map( (item,key) => {
-                                return <Text key={key} style={{padding:5}}>{item}</Text>
-                            })}
-                        </ScrollView>
-                        </View>
-                        <Text> = </Text>
-                        <Text> 12:00 </Text>
+                        {Platform.OS == 'android' ? this._renderWheelPicker() : this._renderPickerIOS()}
+
+                        <Text style={{fontSize:20}}>&#9664;</Text>
+                        <Text>{this.state.toDuration}</Text>
                     </View>
                     <TouchableHighlight
                         style={styles.buttonStyle}
                         onPress={() => {
                             this._toggleView()
+                            this.props.getTimeRange(`${arrayValue[this.state.index]} - ${this.state.toDuration}`);
                         }}
                     >
-                        <Text style={{textAlign:'center'}}>Submit</Text>
+                        <Text style={{ textAlign: 'center' }}>Submit</Text>
                     </TouchableHighlight>
                 </View>
             </Animated.View>
         )
     }
 
-    _handleScroll(event){
-        console.log(event.nativeEvent);
+    _renderPickerIOS() {
+        return (<View style={{ width: width * 0.15, height: height * 0.2, backgroundColor: 'red' }}>
+
+        </View>)
     }
 
-    _getValue(event){
-        console.log("came here",event);
+    _renderWheelPicker() {
+        return (
+            <WheelPicker
+                style={{ width: width * 0.2, height: height * 0.2 }} // dont specify height in ios
+                selectedItem={this.state.index}
+                data={arrayValue}
+                selectedItemTextColor={'#FF8C00'}
+                itemTextSize={16}
+                selectedItemTextSize={20}
+                onItemSelected={(item) => {
+                    if (item == 10) { this.setState({ toDuration: '11:00 PM' }) }
+                    else if (item == 11) { this.setState({ toDuration: '12:00AM' }) }
+                    else {
+                        this.setState({
+                            index: item,
+                            toDuration: arrayValue[(item + 2)]
+                        })
+                    }
+                }}
+                hideIndicator={true}
+            />
+        );
     }
 }
 
@@ -104,28 +116,31 @@ const styles = StyleSheet.create({
         left: 0,
         right: 0,
         backgroundColor: "#FFFFFF",
-        height: 270,
+        height: 280,
     },
-    container:{
-        flex:1,
-        justifyContent:'space-around',
-        alignItems:'center',
+    container: {
+        flex: 1,
+        justifyContent: 'space-around',
     },
-    hourListStyle:{
-        paddingHorizontal:20,
-        paddingVertical:10,
-        height: height * 0.2,
-        width: width * 0.4,
+    hourListStyle: {
+        flex: 1,
         flexDirection: 'row',
-        justifyContent:'space-between',
-        alignItems:'center',
+        justifyContent: 'space-around',
+        alignItems: 'center',
+        paddingHorizontal: 50,
     },
-    hourList:{
-        flexDirection:'column',
+    hourList: {
+        flexDirection: 'column',
     },
     buttonStyle: {
         width: width * 0.9,
         padding: 10,
+        marginBottom:10,
+        alignSelf:'center',
         backgroundColor: 'orange',
+    },
+    rowStyle: {
+        height: height * 0.1,
+        alignItems: 'center',
     },
 })

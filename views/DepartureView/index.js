@@ -7,22 +7,37 @@ import {
 } from 'react-native';
 import CalendarList from '../../components/Calendar/index';
 import TimePickerComponent from '../../components/TimePicker/index';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux'
+import * as actions from '../../actionCreators';
 
-export default class DepartureView extends React.Component{
+class DepartureView extends React.Component{
     constructor(){
         super();
         this.state = {
             isDatePressed : false,
+            timeSelected : null,
+            dateSelected:null,
         }
     }
 
-    callTimePicker = () => {
+    callTimePicker = ({ dateString }) => {
         this.setState({
             isDatePressed: !this.state.isDatePressed,
-        })
-    }
+            dateSelected: dateString,
+        });
+        this.props.action.storeDepartureDate(dateString);
+    };
+
+    toggleTimePicker = () => {
+        this.setState({
+            isDatePressed: ! this.state.isDatePressed,
+        });
+    };
+
+
+
     render(){
-        console.log("is Pressed ==>", this.state.isDatePressed);
         return(
             <View> 
                 <View style={styles.dayStrip}>
@@ -34,13 +49,26 @@ export default class DepartureView extends React.Component{
                     <Text style={styles.dayTextStyle}>F</Text>
                     <Text style={styles.dayTextStyle}>S</Text>
                 </View>
-                <CalendarList callTimePicker={() => this.callTimePicker()}/>
-                <TouchableHighlight style={styles.buttonStyle}>
+                <CalendarList callTimePicker={(data) => this.callTimePicker(data)}/>
+                <TouchableHighlight 
+                    disabled = { !( this.state.dateSelected && this.state.timeSelected )}
+                    onPress={() => {
+                        this.props.navigation.navigate('Return Date');
+                    }}
+                    style={styles.buttonStyle}>
                     <Text style={{color:'white'}}>Continue to Booking</Text>
                 </TouchableHighlight>
-                { this.state.isDatePressed && <TimePickerComponent /> }
+                { this.state.isDatePressed && <TimePickerComponent getTimeRange={ value => this._getTimeRange( value )}/> }
             </View>
         );
+    }
+
+    _getTimeRange( time ) {
+        this.toggleTimePicker();
+        this.setState({
+            timeSelected: time,
+        })
+        this.props.action.storeDeparturnTime( time );
     }
 };
 
@@ -67,3 +95,9 @@ const styles = StyleSheet.create({
         margin:10
     },  
 });
+
+const mapDispatchToProps = (dispatch) => ({
+    action : bindActionCreators(actions, dispatch),
+});
+
+export default connect(null, mapDispatchToProps)(DepartureView);
