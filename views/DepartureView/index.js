@@ -4,14 +4,25 @@ import {
     Text,
     StyleSheet,
     TouchableHighlight,
-    Dimensions,
 } from 'react-native';
 import CalendarList from '../../components/Calendar/index';
-
-const { width, height } = Dimensions.get('window');
+import TimePickerComponent from '../../components/TimePicker/index';
 
 export default class DepartureView extends React.Component{
+    constructor(){
+        super();
+        this.state = {
+            isDatePressed : false,
+        }
+    }
+
+    callTimePicker = () => {
+        this.setState({
+            isDatePressed: !this.state.isDatePressed,
+        })
+    }
     render(){
+        console.log("is Pressed ==>", this.state.isDatePressed);
         return(
             <View> 
                 <View style={styles.dayStrip}>
@@ -23,10 +34,11 @@ export default class DepartureView extends React.Component{
                     <Text style={styles.dayTextStyle}>F</Text>
                     <Text style={styles.dayTextStyle}>S</Text>
                 </View>
-                <CalendarList/>
+                <CalendarList callTimePicker={() => this.callTimePicker()}/>
                 <TouchableHighlight style={styles.buttonStyle}>
                     <Text style={{color:'white'}}>Continue to Booking</Text>
                 </TouchableHighlight>
+                { this.state.isDatePressed && <TimePickerComponent /> }
             </View>
         );
     }

@@ -43,7 +43,10 @@ export default class CalendarComponent extends React.Component {
                 showScrollIndicator={true}
                 current={'2019-08-25'}
                 minDate={'2019-08-01'}
-                onDayPress={(day) => {console.log('selected day', day)}}
+                onDayPress={(day) => {
+                    console.log('selected day', day);
+                    this.props.callTimePicker();
+                }}
             />
         );
     };
