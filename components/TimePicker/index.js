@@ -8,9 +8,7 @@ import {
     Text,
     View,
 } from 'react-native';
-import DatePicker from 'react-native-date-picker';
-import { WheelPicker } from 'react-native-wheel-picker-android'
-import Picker from 'react-native-wheel-picker';
+import { WheelPicker } from 'react-native-wheel-picker-android';
 
 const { height, width } = Dimensions.get('window');
 const arrayValue = ['0:00 AM', '1:00 AM', '2:00 AM', '3:00 AM', '4:00 AM', '5:00 AM', '6:00 AM', '7:00 AM', '8:00 AM', '9:00 AM', '10:00 AM', '11:00 AM', '12:00 PM', '1:00 PM', '2:00 PM', '3:00 PM', '4:00 PM', '5:00 PM', '6:00 PM', '7:00 PM', '8:00 PM', '9:00 PM', '10:00 PM'];
@@ -70,7 +68,7 @@ export default class TimePicker extends React.Component {
                             this.props.getTimeRange(`${arrayValue[this.state.index]} to ${this.state.toDuration}`);
                         }}
                     >
-                        <Text style={{ textAlign: 'center' }}>Submit</Text>
+                        <Text style={{ textAlign: 'center', color:'white' }}>Confirm Time</Text>
                     </TouchableHighlight>
                 </View>
             </Animated.View>
@@ -108,12 +106,13 @@ const styles = StyleSheet.create({
         bottom: 0,
         left: 0,
         right: 0,
+        zIndex:5,
         backgroundColor: "#FFFFFF",
         height: 280,
     },
     container: {
         flex: 1,
-        justifyContent: 'space-around',
+       justifyContent:'space-around'
     },
     hourListStyle: {
         flex: 1,
@@ -126,9 +125,8 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
     },
     buttonStyle: {
-        width: width * 0.9,
-        padding: 10,
-        marginBottom:10,
+        width: width,
+        padding: 15,
         alignSelf:'center',
         backgroundColor: '#FF8C00',
     },

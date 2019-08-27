@@ -39,7 +39,7 @@ class ReturnView extends React.Component{
         return(
             <View> 
                 <WeekStrip />
-                <CalendarList callTimePicker={(data) => this.callTimePicker(data)}/>
+                <CalendarList callTimePicker={(data) => this.callTimePicker(data)} minDate = { this.props.minDate }/>
                 <TouchableHighlight style={styles.buttonStyle}>
                     <Text style={{color:'white'}}>Continue to Booking</Text>
                 </TouchableHighlight>
@@ -80,8 +80,12 @@ const styles = StyleSheet.create({
     },  
 });
 
+const mapStateToProps = ({departureDate}) => ({
+    minDate : departureDate,
+});
+
 const mapDispatchToProps = (dispatch) => ({
     action : bindActionCreators(actions, dispatch),
 });
 
-export default connect(null, mapDispatchToProps)(ReturnView);
+export default connect(mapStateToProps, mapDispatchToProps)(ReturnView);

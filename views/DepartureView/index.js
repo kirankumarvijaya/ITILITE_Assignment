@@ -3,6 +3,7 @@ import {
     View,
     Text,
     StyleSheet,
+    Dimensions,
     TouchableHighlight,
 } from 'react-native';
 import CalendarList, { WeekStrip } from '../../components/Calendar/index';
@@ -10,6 +11,8 @@ import TimePickerComponent from '../../components/TimePicker/index';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux'
 import * as actions from '../../actionCreators';
+
+const { height,width} = Dimensions.get('screen');
 
 class DepartureView extends React.Component{
     constructor(){
@@ -39,7 +42,7 @@ class DepartureView extends React.Component{
 
     render(){
         return(
-            <View> 
+            <View style={{position:'relative',zIndex:0}}> 
                 <WeekStrip />
                 <CalendarList callTimePicker={(data) => this.callTimePicker(data)}/>
                 <TouchableHighlight 
@@ -51,6 +54,14 @@ class DepartureView extends React.Component{
                     <Text style={{color:'white',fontSize: 15}}>Continue to Booking</Text>
                 </TouchableHighlight>
                 { this.state.isDatePressed && <TimePickerComponent getTimeRange={ value => this._getTimeRange( value )}/> }
+                { this.state.isDatePressed && <View style={{
+                    width:width,
+                    height:height,
+                    backgroundColor:'lightgrey',
+                    opacity:0.5,
+                    zIndex: 2,
+                    position:'absolute',
+                }}/>}
             </View>
         );
     }

@@ -44,8 +44,6 @@ export default class CalendarComponent extends React.Component {
                 markedDates={{[this.state.markedDate]: {selected: true, selectedColor: '#FF8C00'}}}
                 hideExtraDays={false}
                 style={{ width:'95%', height: height * 0.55 }}
-                // Callback which gets executed when visible months change in scroll view. Default = undefined
-                onVisibleMonthsChange={(months) => { console.log('now these months are visible', months); }}
                 // Max amount of months allowed to scroll to the past. Default = 50
                 pastScrollRange={50}
                 // Max amount of months allowed to scroll to the future. Default = 50
@@ -54,8 +52,8 @@ export default class CalendarComponent extends React.Component {
                 scrollEnabled={true}
                 // Enable or disable vertical scroll indicator. Default = false
                 showScrollIndicator={true}
-                current={'2019-08-25'}
-                minDate={'2019-08-01'}
+                current={ new Date().toISOString().substr(0,10) }
+                minDate={ this.props.minDate ? this.props.minDate : new Date().toISOString().substr(0,10) }
                 onDayPress={(day) => {
                     this.setState({
                         markedDate : day.dateString,
@@ -79,7 +77,7 @@ export const WeekStrip = () => {
                     <Text style={styles.dayTextStyle}>S</Text>
                 </View>
     )
-}
+};
 
 const styles =StyleSheet.create({
     dayStrip: {
@@ -93,4 +91,4 @@ const styles =StyleSheet.create({
         fontSize:20,
         color:'lightgrey'
     },
-})
+});
