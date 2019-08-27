@@ -1,13 +1,11 @@
 import React from 'react';
 import {
-    Dimensions,
     StyleSheet,
     View,
     Text,
 } from 'react-native';
 import { CalendarList } from 'react-native-calendars';
-
-const { height } = Dimensions.get('window');
+import { height } from '../../constants';
 
 export default class CalendarComponent extends React.Component {
     constructor(){

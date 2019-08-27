@@ -6,8 +6,8 @@ import {
     StyleSheet,
 } from 'react-native';
 import { connect } from 'react-redux';
+import { MONTH_NAMES } from '../constants';
 
-const MONTH_NAMES = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
 class TabbarHeader extends React.PureComponent {
     render() {
