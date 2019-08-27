@@ -40,22 +40,21 @@ export default class TimePicker extends React.Component {
             }
         ).start();
         this.isHidden = !this.isHidden;
-
     }
 
     render() {
         return (
             <Animated.View
                 style={[styles.subView,
-                { transform: [{ translateY: this.state.bounceValue }] }]}
-            >
+                { transform: [{ translateY: this.state.bounceValue }] }]}>
+
                 <View style={styles.container}>
-                    <View style={{ alignSelf: 'flex-start', paddingLeft: 10, marginTop:10 }}>
+                    <View style={{ alignSelf: 'flex-start', paddingLeft: 10, marginTop: 10 }}>
                         <Text> Select Time Slot</Text>
                     </View>
                     <View style={styles.hourListStyle}>
                         {this._renderWheelPicker()}
-                        <Text style={{fontSize:20}}>&#9664;</Text>
+                        <Text style={{ fontSize: 20 }}>&#9664;</Text>
                         <Text>{this.state.toDuration}</Text>
                     </View>
                     <TouchableHighlight
@@ -65,7 +64,7 @@ export default class TimePicker extends React.Component {
                             this.props.getTimeRange(`${arrayValue[this.state.index]} to ${this.state.toDuration}`);
                         }}
                     >
-                        <Text style={{ textAlign: 'center', color:'white' }}>Confirm Time</Text>
+                        <Text style={{ textAlign: 'center', color: 'white' }}>Confirm Time</Text>
                     </TouchableHighlight>
                 </View>
             </Animated.View>
@@ -75,7 +74,7 @@ export default class TimePicker extends React.Component {
     _renderWheelPicker() {
         return (
             <WheelPicker
-                style={{ width: width * 0.3, height: height * 0.2, alignSelf: Platform.OS === 'ios' ? 'flex-start' : 'center' }} // dont specify height in ios
+                style={[styles.wheelPickerStyle, {alignSelf: Platform.OS === 'ios' ? 'flex-start' : 'center' }]} 
                 selectedItem={this.state.index}
                 data={arrayValue}
                 selectedItemTextColor={'#FF8C00'}
@@ -103,13 +102,13 @@ const styles = StyleSheet.create({
         bottom: 0,
         left: 0,
         right: 0,
-        zIndex:5,
+        zIndex: 5,
         backgroundColor: "#FFFFFF",
         height: 280,
     },
     container: {
         flex: 1,
-       justifyContent:'space-around'
+        justifyContent: 'space-around'
     },
     hourListStyle: {
         flex: 1,
@@ -124,11 +123,15 @@ const styles = StyleSheet.create({
     buttonStyle: {
         width: width,
         padding: 15,
-        alignSelf:'center',
+        alignSelf: 'center',
         backgroundColor: '#FF8C00',
     },
     rowStyle: {
         height: height * 0.1,
         alignItems: 'center',
     },
+    wheelPickerStyle: {
+        width: width * 0.3, 
+        height: height * 0.2, 
+    }
 })

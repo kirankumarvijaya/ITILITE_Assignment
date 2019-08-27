@@ -60,7 +60,7 @@ class ReturnView extends React.Component{
     */
     render(){
         return(
-            <View style={{position:'relative',zIndex:0}}> 
+            <View style={styles.mainView}> 
                 <WeekStrip />
                 <CalendarList callTimePicker={(data) => this.callTimePicker(data)} minDate = { this.props.minDate }/>
                 <TouchableHighlight 
@@ -69,17 +69,13 @@ class ReturnView extends React.Component{
                     style={styles.buttonStyle}>
                     <Text style={{color:'white'}}>Submit</Text>
                 </TouchableHighlight>
-                { this.state.isDatePressed && <TimePickerComponent getTimeRange={ value => this._getTimeRange( value )}/> }
+                { this.state.isDatePressed && 
+                    // TimePicker Component
+                    <TimePickerComponent getTimeRange={ value => this._getTimeRange( value )}/> 
+                }
                 { this.state.isDatePressed && 
                     // overlay view
-                    <View style={{ 
-                                    width:width,
-                                    height:height,
-                                    backgroundColor:'lightgrey',
-                                    opacity:0.5,
-                                    zIndex: 2,
-                                    position:'absolute',
-                                }}/>
+                    <View style={styles.overlayStyle}/>
                 }
             </View>
         );
@@ -103,6 +99,10 @@ class ReturnView extends React.Component{
 };
 
 const styles = StyleSheet.create({
+    mainView:{
+        position:'relative',
+        zIndex:0
+    },
     container: {
         flexDirection:'column',
         justifyContent:'space-around'
@@ -125,6 +125,14 @@ const styles = StyleSheet.create({
         margin:10,
         borderRadius: 10,
     },  
+    overlayStyle: {
+        width:width,
+        height:height,
+        backgroundColor:'lightgrey',
+        opacity:0.5,
+        zIndex: 2,
+        position:'absolute',
+    },
 });
 
 const mapStateToProps = ({departureDate}) => ({

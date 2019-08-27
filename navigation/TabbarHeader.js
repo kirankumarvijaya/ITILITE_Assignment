@@ -51,6 +51,7 @@ class TabbarHeader extends React.PureComponent {
     }
 
     onSelect = (routeName) => {
+        // this will navigate to the specific tab
         this.props.onPress(routeName);
     };
 };

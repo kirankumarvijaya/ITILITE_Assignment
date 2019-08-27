@@ -15,6 +15,7 @@ const TopTabBarConfig = createMaterialTopTabNavigator({
     swipeEnabled: true,
     animationEnabled: true, 
     tabBarComponent: props => (
+        // custom Tabbar component
         <CustomTabbar {...props}/> 
     ),
 });

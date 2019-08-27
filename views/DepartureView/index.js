@@ -61,7 +61,7 @@ class DepartureView extends React.Component{
     */
     render(){
         return(
-            <View style={{position:'relative',zIndex:0}}> 
+            <View style={styles.mainView}> 
                 <WeekStrip />
                 <CalendarList callTimePicker={(data) => this.callTimePicker(data)}/>
                 <TouchableHighlight 
@@ -72,17 +72,13 @@ class DepartureView extends React.Component{
                     style={styles.buttonStyle}>
                     <Text style={{color:'white',fontSize: 15}}>Continue to Booking</Text>
                 </TouchableHighlight>
-                { this.state.isDatePressed && <TimePickerComponent getTimeRange={ value => this._getTimeRange( value )}/> }
+                { this.state.isDatePressed && 
+                    // TimePicker component
+                    <TimePickerComponent getTimeRange={ value => this._getTimeRange( value )}/> 
+                }
                 { this.state.isDatePressed && 
                     // overlay view
-                    <View style={{ 
-                                    width:width,
-                                    height:height,
-                                    backgroundColor:'lightgrey',
-                                    opacity:0.5,
-                                    zIndex: 2,
-                                    position:'absolute',
-                                }}/>
+                    <View style={styles.overlayStyle}/>
                 }
             </View>
         );
@@ -106,6 +102,10 @@ class DepartureView extends React.Component{
 };
 
 const styles = StyleSheet.create({
+    mainView:{
+        position:'relative',
+        zIndex:0
+    },
     container: {
         flexDirection:'column',
         justifyContent:'space-around'
@@ -116,7 +116,15 @@ const styles = StyleSheet.create({
         paddingVertical:20,
         margin:10,
         borderRadius: 10,
-    },  
+    },
+    overlayStyle: {
+        width:width,
+        height:height,
+        backgroundColor:'lightgrey',
+        opacity:0.5,
+        zIndex: 2,
+        position:'absolute',
+    }  
 });
 
 const mapDispatchToProps = (dispatch) => ({
