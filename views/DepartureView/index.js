@@ -104,6 +104,8 @@ class DepartureView extends React.Component{
 const styles = StyleSheet.create({
     mainView:{
         position:'relative',
+        flex:1,
+        justifyContent:'space-between',
         zIndex:0
     },
     container: {

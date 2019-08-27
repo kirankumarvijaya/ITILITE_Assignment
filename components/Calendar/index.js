@@ -38,12 +38,13 @@ export default class CalendarComponent extends React.Component {
 
     render() {
         return (
-            <CalendarList
+            <View style={{ flex:1 }}>
+                <CalendarList
                 theme={this.getOverrideStyle()}
                 hideDayNames={true}
                 markedDates={{[this.state.markedDate]: {selected: true, selectedColor: '#FF8C00'}}}
                 hideExtraDays={false}
-                style={{ width:'95%', height: height * 0.55 }}
+                style={{ width:'95%'}}
                 // Max amount of months allowed to scroll to the past. Default = 50
                 pastScrollRange={50}
                 // Max amount of months allowed to scroll to the future. Default = 50
@@ -64,7 +65,8 @@ export default class CalendarComponent extends React.Component {
                     });
                     this.props.callTimePicker(day);
                 }}
-            />
+            /> 
+            </View>
         );
     };
 };
