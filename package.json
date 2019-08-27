@@ -12,7 +12,6 @@
     "react-native": "0.60.5",
     "react-native-calendars": "^1.210.0",
     "react-native-gesture-handler": "^1.4.1",
-    "react-native-modal-picker": "0.0.16",
     "react-native-reanimated": "^1.2.0",
     "react-native-wheel-picker-android": "^2.0.5",
     "react-navigation": "^3.12.0",
