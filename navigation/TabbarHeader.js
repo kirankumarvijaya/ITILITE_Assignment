@@ -7,9 +7,11 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 
+const MONTH_NAMES = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
 class TabbarHeader extends React.PureComponent {
     render() {
-        const { focused, routeName, departureDate, departureTime, returnDate, returnTime } = this.props;
+        const { focused, routeName } = this.props;
         return (
             <TouchableWithoutFeedback
                 onPress={() => this.onSelect(routeName)}
@@ -26,9 +28,11 @@ class TabbarHeader extends React.PureComponent {
 
     _renderDepartureHeader(){
         const { departureDate, departureTime} = this.props;
+        let dateStringArray = departureDate && departureDate.split('-');
+        let monthName = departureDate && MONTH_NAMES[Number(dateStringArray[1])-1];
         return (
             <>
-            <Text style={styles.dateTextStyle}>{ departureDate === '' ? 'Date' : departureDate }</Text>
+            <Text style={styles.dateTextStyle}>{ departureDate === '' ? 'Date' : `${dateStringArray[2]} ${monthName} ${dateStringArray[0]}` }</Text>
             <Text style={styles.timeTextStyle}>{ departureTime === '' ? 'Time' : departureTime }</Text>
             </>
         )
@@ -36,9 +40,11 @@ class TabbarHeader extends React.PureComponent {
 
     _renderReturnHeader(){
         const { returnDate, returnTime } = this.props;
+        let dateStringArray = returnDate && returnDate.split('-');
+        let monthName = returnDate && MONTH_NAMES[Number(dateStringArray[1])-1];
         return (
             <>
-            <Text style={styles.dateTextStyle}>{ returnDate === '' ? 'Date' : returnDate }</Text>
+            <Text style={styles.dateTextStyle}>{ returnDate === '' ? 'Date' : `${dateStringArray[2]} ${monthName} ${dateStringArray[0]}` }</Text>
             <Text style={styles.timeTextStyle}>{ returnTime === '' ? 'Time' : returnTime }</Text>
             </>
         )
@@ -58,7 +64,7 @@ const styles = StyleSheet.create({
     },
     active: {
         borderBottomWidth: 3,
-        borderColor: 'orange'
+        borderColor: '#FF8C00'
     },
     inactive: {
         borderBottomWidth: 3,
@@ -71,21 +77,21 @@ const styles = StyleSheet.create({
     },
     dateTextStyle:{
         fontSize: 18,
-        fontWeight:'500',
+        fontWeight:'bold',
     },
     timeTextStyle: {
         fontSize: 13,
-        fontWeight:'200'
+        fontWeight:'200',
+        color:'darkgrey'
     },
     paddingVertical: {
-        paddingVertical:20,
+        paddingVertical:12,
         flex:1,
         justifyContent:'space-between'
     }
 });
 
 const mapStateToProps = ({departureTime, departureDate, returnDate, returnTime}) => {
-    console.log("came here===>",departureTime);
     return{
         departureTime,
         departureDate,

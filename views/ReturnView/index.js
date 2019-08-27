@@ -5,7 +5,7 @@ import {
     StyleSheet,
     TouchableHighlight,
 } from 'react-native';
-import CalendarList from '../../components/Calendar/index';
+import CalendarList, { WeekStrip } from '../../components/Calendar/index';
 import TimePickerComponent from '../../components/TimePicker/index';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux'
@@ -38,15 +38,7 @@ class ReturnView extends React.Component{
     render(){
         return(
             <View> 
-                <View style={styles.dayStrip}>
-                    <Text style={styles.dayTextStyle}>S</Text>
-                    <Text style={styles.dayTextStyle}>M</Text>
-                    <Text style={styles.dayTextStyle}>T</Text>
-                    <Text style={styles.dayTextStyle}>W</Text>
-                    <Text style={styles.dayTextStyle}>T</Text>
-                    <Text style={styles.dayTextStyle}>F</Text>
-                    <Text style={styles.dayTextStyle}>S</Text>
-                </View>
+                <WeekStrip />
                 <CalendarList callTimePicker={(data) => this.callTimePicker(data)}/>
                 <TouchableHighlight style={styles.buttonStyle}>
                     <Text style={{color:'white'}}>Continue to Booking</Text>
@@ -80,9 +72,11 @@ const styles = StyleSheet.create({
     },
     buttonStyle:{
         alignItems:'center',
-        backgroundColor:'orange',
-        paddingVertical:15,
-        margin:10
+        backgroundColor:'#FF8C00',
+        paddingVertical:20,
+        marginHorizontal:10,
+        marginBottom:17,
+        borderRadius:10,
     },  
 });
 

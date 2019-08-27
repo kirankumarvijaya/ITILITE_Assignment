@@ -5,7 +5,7 @@ import {
     StyleSheet,
     TouchableHighlight,
 } from 'react-native';
-import CalendarList from '../../components/Calendar/index';
+import CalendarList, { WeekStrip } from '../../components/Calendar/index';
 import TimePickerComponent from '../../components/TimePicker/index';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux'
@@ -40,15 +40,7 @@ class DepartureView extends React.Component{
     render(){
         return(
             <View> 
-                <View style={styles.dayStrip}>
-                    <Text style={styles.dayTextStyle}>S</Text>
-                    <Text style={styles.dayTextStyle}>M</Text>
-                    <Text style={styles.dayTextStyle}>T</Text>
-                    <Text style={styles.dayTextStyle}>W</Text>
-                    <Text style={styles.dayTextStyle}>T</Text>
-                    <Text style={styles.dayTextStyle}>F</Text>
-                    <Text style={styles.dayTextStyle}>S</Text>
-                </View>
+                <WeekStrip />
                 <CalendarList callTimePicker={(data) => this.callTimePicker(data)}/>
                 <TouchableHighlight 
                     disabled = { !( this.state.dateSelected && this.state.timeSelected )}
@@ -56,7 +48,7 @@ class DepartureView extends React.Component{
                         this.props.navigation.navigate('Return Date');
                     }}
                     style={styles.buttonStyle}>
-                    <Text style={{color:'white'}}>Continue to Booking</Text>
+                    <Text style={{color:'white',fontSize: 15}}>Continue to Booking</Text>
                 </TouchableHighlight>
                 { this.state.isDatePressed && <TimePickerComponent getTimeRange={ value => this._getTimeRange( value )}/> }
             </View>
@@ -77,22 +69,12 @@ const styles = StyleSheet.create({
         flexDirection:'column',
         justifyContent:'space-around'
     },
-    dayStrip: {
-        flexDirection:'row',
-        justifyContent:'space-around',
-        alignItems:'center',
-        paddingHorizontal:15,
-        paddingVertical:10,
-    },
-    dayTextStyle:{
-        fontSize:20,
-        color:'lightgrey'
-    },
     buttonStyle:{
         alignItems:'center',
-        backgroundColor:'orange',
-        paddingVertical:15,
-        margin:10
+        backgroundColor:'#FF8C00',
+        paddingVertical:20,
+        margin:10,
+        borderRadius: 10,
     },  
 });
 

@@ -20,7 +20,7 @@ export default class App extends React.Component {
   render() {
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
-        <Text style={{ textAlign: 'center', paddingVertical: 15 }}>Select Dates</Text>
+        <Text style={{ textAlign: 'center', paddingVertical: 15, fontSize:18, fontWeight:'400' }}>Select Dates</Text>
         <Provider store={store}>
           <AppNavigator />
         </Provider>

@@ -21,7 +21,7 @@ export default class TimePicker extends React.Component {
         this.state = {
             bounceValue: new Animated.Value(280),
             index: 0,
-            toDuration: '',
+            toDuration: '2:00 AM',
         };
         this.isHidden = true;
     }
@@ -59,16 +59,15 @@ export default class TimePicker extends React.Component {
                         <Text> Select Time Slot</Text>
                     </View>
                     <View style={styles.hourListStyle}>
-                        {Platform.OS == 'android' ? this._renderWheelPicker() : this._renderPickerIOS()}
-
+                        {this._renderWheelPicker()}
                         <Text style={{fontSize:20}}>&#9664;</Text>
                         <Text>{this.state.toDuration}</Text>
                     </View>
                     <TouchableHighlight
                         style={styles.buttonStyle}
                         onPress={() => {
-                            this._toggleView()
-                            this.props.getTimeRange(`${arrayValue[this.state.index]} - ${this.state.toDuration}`);
+                            this._toggleView();
+                            this.props.getTimeRange(`${arrayValue[this.state.index]} to ${this.state.toDuration}`);
                         }}
                     >
                         <Text style={{ textAlign: 'center' }}>Submit</Text>
@@ -78,24 +77,18 @@ export default class TimePicker extends React.Component {
         )
     }
 
-    _renderPickerIOS() {
-        return (<View style={{ width: width * 0.15, height: height * 0.2, backgroundColor: 'red' }}>
-
-        </View>)
-    }
-
     _renderWheelPicker() {
         return (
             <WheelPicker
-                style={{ width: width * 0.2, height: height * 0.2 }} // dont specify height in ios
+                style={{ width: width * 0.3, height: height * 0.2, alignSelf: Platform.OS === 'ios' ? 'flex-start' : 'center' }} // dont specify height in ios
                 selectedItem={this.state.index}
                 data={arrayValue}
                 selectedItemTextColor={'#FF8C00'}
                 itemTextSize={16}
                 selectedItemTextSize={20}
                 onItemSelected={(item) => {
-                    if (item == 10) { this.setState({ toDuration: '11:00 PM' }) }
-                    else if (item == 11) { this.setState({ toDuration: '12:00AM' }) }
+                    if (item == 21) { this.setState({ index: item, toDuration: '11:00 PM' }) }
+                    else if (item == 22) { this.setState({ index: item, toDuration: '12:00AM' }) }
                     else {
                         this.setState({
                             index: item,
@@ -137,7 +130,7 @@ const styles = StyleSheet.create({
         padding: 10,
         marginBottom:10,
         alignSelf:'center',
-        backgroundColor: 'orange',
+        backgroundColor: '#FF8C00',
     },
     rowStyle: {
         height: height * 0.1,
